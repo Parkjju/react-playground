@@ -14,14 +14,42 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
     function App() {
-      const [counter, setCounter] = React.useState(0);
-      const onClick = () => {
-        setCounter((counter) => counter + 1);
+      const [amount, setAmount] = React.useState(0);
+      const [disabled, setDisabled] = React.useState(true);
+      const onChange = (e) => {
+        setAmount(e.target.value);
       };
+      const reset = () => {
+        setAmount(0);
+      };
+      const flip = () => {
+        setDisabled((current) => !current);
+      };
+
       return (
         <div>
-          <h3>Total clicks: {counter} </h3>
-          <button onClick={onClick}>Click me</button>
+          <h1>Super converter</h1>
+          <label htmlFor='minutes'>Minutes</label>
+          <input
+            id='minutes'
+            placeholder='Minutes'
+            type='number'
+            value={!disabled ? amount * 60 : amount}
+            onChange={onChange}
+            disabled={!disabled}
+          />
+
+          <label htmlFor='hours'>Hours</label>
+          <input
+            onChange={onChange}
+            id='hours'
+            placeholder='Hours'
+            type='number'
+            value={disabled ? Math.round(amount / 60) : amount}
+            disabled={disabled}
+          />
+          <button onClick={reset}>Reset</button>
+          <button onClick={flip}>Flip!</button>
         </div>
       );
     }
