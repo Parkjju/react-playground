@@ -49,7 +49,7 @@
             disabled={disabled}
           />
           <button onClick={reset}>Reset</button>
-          <button onClick={flip}>Flip!</button>
+          <button onClick={flip}>{disabled ? 'Turn back' : 'Invert!'}</button>
         </div>
       );
     }
