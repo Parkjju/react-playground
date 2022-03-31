@@ -7,11 +7,18 @@ function App() {
   const [keyword, setKeyword] = useState('');
   const onClick = () => setValue((prev) => prev + 1);
   const onChange = (event) => setKeyword(event.target.value);
-  console.log('Rendered!');
   const runOnlyOnce = () => {
     console.log('Run only once!');
   };
   useEffect(runOnlyOnce, []);
+
+  useEffect(() => {
+    console.log('Run when keyword changes!');
+  }, [keyword]);
+
+  useEffect(() => {
+    console.log('Run when counter changes!');
+  }, [counter]);
   return (
     <div>
       <input
