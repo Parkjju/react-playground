@@ -1,69 +1,76 @@
-// // import Button from './Button';
-// // import styles from './App.module.css';
-// import { useState } from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
-    const [toDo, setToDo] = useState('');
-    const [toDos, setToDos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [coins, setCoins] = useState([]);
+    const [money, setMoney] = useState('');
+    const [buyCoin, setBuyCoin] = useState('');
+    const [canBuy, setCanBuy] = useState(false);
+    const [coinNum, setCoinNum] = useState(0);
 
-    const onChange = (event) => setToDo(event.target.value);
+    const base = 'https://api.coinpaprika.com/v1/';
+    useEffect(() => {
+        fetch(`${base}tickers`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                setCoins(data);
+                setLoading(false);
+            });
+    }, []);
+
+    const onChange = (event) => {
+        setMoney(event.target.value);
+    };
     const onSubmit = (event) => {
         event.preventDefault();
-        if (toDo == '') {
+        if (money == '') {
             return;
         }
-        setToDos((currentToDos) => [toDo, ...currentToDos]);
-        setToDo('');
+        setMoney(event.target.value);
+
+        if (Number(money) < Number(buyCoin)) {
+            setCanBuy(false);
+        } else {
+            setCanBuy(true);
+            setCoinNum(Math.floor(Number(money) / Number(buyCoin)));
+        }
+        setMoney('');
+    };
+    const onSelect = (event) => {
+        const coinInfo = event.target.value;
+        const splitPrice = coinInfo.split(' ');
+        splitPrice.splice(splitPrice.length - 1, 1);
+        const coinPrice = splitPrice.splice(splitPrice.length - 1, 1);
+
+        setBuyCoin(coinPrice);
     };
 
     return (
         <div>
+            <h1>The Coins! ({coins.length})</h1>
+            {loading ? <strong>Loading...</strong> : null}
+            <select onChange={onSelect}>
+                {coins.map((item) => {
+                    return (
+                        <option key={item.id}>
+                            {item.name} ({item.symbol}): {item.quotes.USD.price}{' '}
+                            USD
+                        </option>
+                    );
+                })}
+            </select>
             <form onSubmit={onSubmit}>
                 <input
-                    onChange={onChange}
+                    placeholder='Type your money..'
                     type='text'
-                    placeholder='type your todos..'
-                    value={toDo}
+                    value={money}
+                    onChange={onChange}
                 />
-                <button>Add TODO!</button>
             </form>
-            <hr />
-            {toDos.map((item, index) => (
-                <li key={index}>{item}</li>
-            ))}
+            {canBuy ? <strong>You can Buy {coinNum}!</strong> : null}
         </div>
     );
 }
 export default App;
-// function App() {
-//     const [toDo, setToDo] = useState('');
-//     const [toDos, setToDos] = useState([]);
-//     const onChange = (event) => setToDo(event.target.value);
-//     const onSubmit = (event) => {
-//         event.preventDefault();
-//         if (toDo == '') {
-//             return;
-//         }
-//         setToDo(''); // input 비우기
-//         // not toDos.push() ..... 직접 수정하지 않기
-
-//         setToDos((currentArray) => [toDo, ...currentArray]);
-//         console.log(toDos);
-//     };
-//     return (
-//         <div>
-//             <h1>My ToDos : {toDos.length}</h1>
-//             <form onSubmit={onSubmit}>
-//                 <input
-//                     type='text'
-//                     onChange={onChange}
-//                     placeholder='Write your to do..'
-//                 />
-//                 <button>Add To Do</button>
-//             </form>
-//         </div>
-//     );
-// }
-
-// export default App;
