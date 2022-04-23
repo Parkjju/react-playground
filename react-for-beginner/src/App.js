@@ -15,7 +15,6 @@ function App() {
         }
         setToDos((currentToDos) => [toDo, ...currentToDos]);
         setToDo('');
-        console.log(toDos);
     };
 
     return (
@@ -25,9 +24,14 @@ function App() {
                     onChange={onChange}
                     type='text'
                     placeholder='type your todos..'
+                    value={toDo}
                 />
                 <button>Add TODO!</button>
             </form>
+            <hr />
+            {toDos.map((item, index) => (
+                <li key={index}>{item}</li>
+            ))}
         </div>
     );
 }
