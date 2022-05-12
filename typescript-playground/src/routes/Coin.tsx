@@ -17,7 +17,6 @@ const Header = styled.header`
 const Title = styled.h1`
     color: ${(props) => props.theme.accentColor};
     font-size: 48px;
-    color: ${(props) => props.theme.accentColor};
 `;
 const Loader = styled.span`
     display: block;
@@ -25,20 +24,18 @@ const Loader = styled.span`
 `;
 
 interface RouteState {
-    name: string;
+    state: string;
 }
 
 function Coin() {
     const { coinId } = useParams();
     const [loading, setLoading] = useState(true);
-    const location = useLocation();
-    const { name } = location.state as RouteState;
-    console.log(location);
-    console.log(name);
+    const { state } = useLocation() as RouteState;
+
     return (
         <Container>
             <Header>
-                <Title>{name}</Title>
+                <Title>{state}</Title>
             </Header>
             {loading ? <Loader>Loading...</Loader> : null}{' '}
         </Container>
