@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { fetchCoins } from '../api';
+import { Helmet } from 'react-helmet';
 
 const Container = styled.div`
     padding: 0px 20px;
@@ -16,10 +17,11 @@ const Header = styled.header`
 `;
 const CoinsList = styled.ul``;
 const Coin = styled.li`
-    background-color: white;
-    color: ${(props) => props.theme.bgColor};
+    background-color: ${(props) => props.theme.cardBgColor};
+    color: ${(props) => props.theme.textColor};
     margin-bottom: 10px;
     border-radius: 15px;
+    border: 1px solid white;
     a {
         padding: 20px;
         transition: color 0.2s ease-in;
@@ -57,7 +59,11 @@ interface CoinInterface {
     type: string;
 }
 
-function Coins() {
+interface ICoinsProps {
+    toggleDark: () => void;
+}
+
+function Coins({ toggleDark }: ICoinsProps) {
     const { isLoading, data } = useQuery<CoinInterface[]>(
         'allCoins',
         fetchCoins
@@ -65,8 +71,12 @@ function Coins() {
 
     return (
         <Container>
+            <Helmet>
+                <title>Coins</title>
+            </Helmet>
             <Header>
                 <Title>Coins</Title>
+                <button onClick={toggleDark}>Toggle Dark Mode</button>
             </Header>
             {isLoading ? (
                 <Loader>Loading...</Loader>

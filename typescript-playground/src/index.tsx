@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ThemeProvider } from 'styled-components';
 import App from './App';
-import { lightTheme } from './theme';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 const root = ReactDOM.createRoot(
@@ -14,9 +12,7 @@ const queryClient = new QueryClient();
 root.render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
-            <ThemeProvider theme={lightTheme}>
-                <App />
-            </ThemeProvider>
+            <App />
         </QueryClientProvider>
     </React.StrictMode>
 );
