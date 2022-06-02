@@ -11,6 +11,7 @@ const root = ReactDOM.createRoot(
 const queryClient = new QueryClient();
 
 root.render(
+<<<<<<< Updated upstream
   <React.StrictMode>
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
@@ -18,4 +19,13 @@ root.render(
       </QueryClientProvider>
     </RecoilRoot>
   </React.StrictMode>
+=======
+    <React.StrictMode>
+        <RecoilRoot>
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        </RecoilRoot>
+    </React.StrictMode>
+>>>>>>> Stashed changes
 );

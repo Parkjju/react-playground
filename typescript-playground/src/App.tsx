@@ -1,9 +1,10 @@
 import Router from './Router';
-import { useState } from 'react';
 import { createGlobalStyle } from 'styled-components';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ThemeProvider } from 'styled-components';
 import { lightTheme, darkTheme } from './theme';
+import { useRecoilValue } from 'recoil';
+import { isDarkAtom } from './atoms';
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
@@ -64,9 +65,10 @@ table {
 `;
 
 function App() {
+    const isDark = useRecoilValue(isDarkAtom);
     return (
         <>
-            <ThemeProvider theme={darkTheme}>
+            <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
                 <GlobalStyle></GlobalStyle>
                 <Router></Router>
                 <ReactQueryDevtools initialIsOpen={true} />
